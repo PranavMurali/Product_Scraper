@@ -1,2 +1,3 @@
-Wires
-Water
+product_name:Number_of_pages
+
+//please remember to modify this txt file before attempting to run it on your device.
