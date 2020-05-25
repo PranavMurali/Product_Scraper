@@ -7,7 +7,7 @@ wb = Workbook()
 nos=0
 with open("input.txt", "r") as a_file:
     for line in a_file:
-        item = line.strip()
+        item,page_number=line.split(":")
         nos+=1
         ws1 = wb.create_sheet(str(nos)+"Alibaba")
         ws2 = wb.create_sheet(str(nos)+"Indiamart")
@@ -39,7 +39,8 @@ with open("input.txt", "r") as a_file:
                 time.sleep(1)
                 temp=2
 
-                for j in range(2):
+                for j in range(int(page_number)):
+                    itera=j+1
                     drive.execute_script("window.scrollTo(0,document.body.scrollHeight)")
                     time.sleep(3)
                     products_List=drive.find_elements_by_xpath("//*[@class='organic-gallery-title__content medium']")
@@ -76,8 +77,8 @@ with open("input.txt", "r") as a_file:
                         k += 1
                         temp=k
 
-                    nxt = drive.get("https://www.alibaba.com/products/" + item + ".html?spm=a2700.galleryofferlist.0.0.79812f4034Fl8f&IndexArea=product_en&page=" + str(j + 1))
-                    print(temp)
+                    nxt = drive.get("https://www.alibaba.com/products/" + item + ".html?spm=a2700.galleryofferlist.0.0.79812f4034Fl8f&IndexArea=product_en&page=" + str(itera))
+                    print("The number of items so far are "+ str(temp))
 
 
         class bOt:
@@ -91,7 +92,7 @@ with open("input.txt", "r") as a_file:
                 drive = self.driver
                 time.sleep(1)
                 products_Page=drive.get("https://dir.indiamart.com/search.mp?ss= "+ item)
-                time.sleep(2)
+                time.sleep(4)
                 temp1=2
 
                 for j in range(1):
@@ -101,7 +102,7 @@ with open("input.txt", "r") as a_file:
                     time.sleep(2)
                     drive.execute_script("window.scrollTo(0,document.body.scrollHeight)")
                     time.sleep(2)
-                    products_List1=drive.find_elements_by_xpath("//*[@class='lg']")
+                    products_List1=drive.find_elements_by_xpath("//*[@class='fs18 ptitle']")
                     products_Price1=drive.find_elements_by_xpath("//*[@class='prc cur']")
                     seller_Name1=drive.find_elements_by_xpath("//*[@class='lcname']")
 
@@ -119,11 +120,12 @@ with open("input.txt", "r") as a_file:
                         k += 1
                         temp1=k
 
-                    print(temp1)
+                    print("The number of Items so far are "+str(temp1))
 
 
         BoT().DoIt()
         time.sleep(3)
         bOt().LeGo()
 wb.save("Product Listings.xlsx")
+
 
